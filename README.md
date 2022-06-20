@@ -12,13 +12,28 @@ The local real estate company wants to know what renovations improve the house p
 <img src="images/interiordesign.jpg" width=400 height=400 />
 The data provided is csv file of many different aspects of homes in the area such as how many floors, bathrooms, bedrooms they contain. And also when they were built, renovated, and other aspects such as having a waterfront or a view. 
 
-# Regression Results
 The highest correlation with price of the houses was sqft feet of the houses. It correlated about 70% with the raw data before modeling for linear regression. 
 
 ![image](https://user-images.githubusercontent.com/65221687/174551337-2f84dbe2-bb7a-4304-b9dc-a795b0190da8.png)
 ![image](https://user-images.githubusercontent.com/65221687/174551503-9117f928-1ada-4592-9cc3-e83b7adc2d66.png)
 
-However, the best model only accounts for about 50% of the variance as shown below in the table consisting of the R-square = .516 and p-values.
+# Modeling
+A baseline model with sqft_living as the most correlated feature was initially created and had similar train and validation scores:
+Train score: 0.4877465936487044 Validation score: 0.5024006604207555
+
+A second model was created with streamlining of the features and removing those which had low correlation and little relation: "id", "floors", "yr_renovated". It yielded the highest R-square value and a statistically significant F-statistic. 
+
+A third model was created by singling out two of the significant features: "sqft_living", "bedrooms" however it did not improve the train and test scores:
+Train score:      0.5021647986901715
+Validation score: 0.515767645499425
+
+A final model from the baseline model was created using the best three features, "sqft_living", "bedrooms", "bathrooms", however it only yielded a fnal test score of .50.
+
+A dummies model including the dummy variables made of the categorical variables Waterfront and View, along with sqft_living onto price was created but had a much lower r-squared value of .283 with a non-statistical significant F-statistic. 
+
+# Regression Results 
+
+The best model, consisting of sqft_living, bedrooms, bathrooms, sqft_lot, sqft_above, sqft_living15 onto price, only accounts for about 50% of the variance as shown below in the OLS Regression results consisting of the R-square = .516 and p-values. 
 
     OLS Regression Results                            
 Dep. Variable:                  price   R-squared:                       0.516
@@ -31,10 +46,7 @@ Df Residuals:                   21590   BIC:                         5.992e+05
 Df Model:                           6                                         
 
 
-
-The dummies model including the dummy variables made of the categorical variables Waterfront and View, along with sqft_living onto Price had a much lower r-squared value of .283 with a non-statistical significant F-statistic. 
-
- # Issues of multicollinearity
+ # Issues of multicollinearity within the models
 There is also an issue of multicollinearity that became apparent. 
 The predicted price shown below does not align well with the perfect line.
 
